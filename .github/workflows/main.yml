@@ -2,8 +2,12 @@ name: Weekly Web Scraper(Work24_고용노동부)
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
-  workflow_dispatch:
+    # GitHub Actions의 cron은 부정확하므로 30분~1시간 간격 권장
+    # 15분마다 실행하려면 외부 서비스(GitHub App, 클라우드 함수 등) 필요
+    - cron: '*/30 * * * *'  # 30분마다 실행 (더 안정적)
+  workflow_dispatch:  # 수동 실행 가능
+  push:
+    branches: [ main, master ]  # 코드 푸시 시에도 실행
 
 permissions:
   contents: write
