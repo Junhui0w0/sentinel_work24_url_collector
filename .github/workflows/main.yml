@@ -1,0 +1,37 @@
+name: Weekly Web Scraper(Work24_고용노동부)
+
+on:
+  schedule:
+    # 매주 월요일 00:00 UTC (한국 시간 월요일 오전 9시 기준)
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # 테스트용 수동 실행 버튼 추가
+
+permissions:
+  contents: write # 코드가 실행된 후 index.html을 덮어쓰기 위한 권한
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: 파이썬 환경 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12' # 원하는 버전으로 수정 가능
+
+      - name: 패키지 및 Playwright 브라우저 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: 스크래핑 파이썬 코드 실행
+        run: python work24.py # ⚠️ 본인의 파이썬 파일명과 일치하는지 확인하세요!
+
+      - name: 새로 생성된 HTML 파일 자동 커밋 & 푸시
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "웹 스크래핑 결과 업데이트"
+          file_pattern: "index.html" # 파이썬이 생성하는 html 파일명
