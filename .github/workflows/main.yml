@@ -2,7 +2,7 @@ name: Weekly Web Scraper(Work24_고용노동부)
 
 on:
   schedule:
-    - cron: '50 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 permissions:
