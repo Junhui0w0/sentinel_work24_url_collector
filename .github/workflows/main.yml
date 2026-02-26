@@ -4,7 +4,7 @@ on:
   schedule:
     # 매주 월요일 00:00 UTC (한국 시간 월요일 오전 9시 기준)
     # - cron: '0 0 * * 1'
-    - cron: '36 * * * *'
+    - cron: '45 * * * *'
   workflow_dispatch: # 테스트용 수동 실행 버튼 추가
 
 permissions:
