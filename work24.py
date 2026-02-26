@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 import re
 import time
@@ -15,7 +15,9 @@ def extract_hrefs_from_html(html_content):
     return hrefs
 
 def main():
-    start_time = datetime.now()
+    # 한국 시간대(KST) 설정: UTC+9
+    KST = timezone(timedelta(hours=9))
+    start_time = datetime.now(KST)
     start_time_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
     # ★ 핵심 팁: resultCnt를 100으로 설정해서 페이지 수를 획기적으로 줄입니다!
     # pageIndex와 currentPageNo 부분만 {page} 변수로 포맷팅하도록 수정했습니다.
@@ -82,7 +84,7 @@ def main():
                 error_page.append(page_index)
 
     # 4. 결과 HTML 파일 생성 (기존 로직과 동일)
-    end_time = datetime.now()
+    end_time = datetime.now(KST)
     end_time_str = end_time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"\n=== 추출 완료 ===")
     print(f"추출된 총 링크 수: {len(all_hrefs)}")
